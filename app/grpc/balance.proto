@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package balance;
+
+import "google/protobuf/empty.proto";
+
+service BalanceService {
+    rpc ChangeBalance (ChangeBalanceRequest) returns (BalanceResponse);
+    rpc OpenTransaction (OpenTransactionRequest) returns (TransactionResponse);
+    rpc CommitTransaction (TransactionActionRequest) returns (BalanceResponse);
+    rpc CancelTransaction (TransactionActionRequest) returns (BalanceResponse);
+}
+
+message ChangeBalanceRequest {
+    string user_id = 1;
+    double delta_current = 2;
+    double delta_max = 3;
+}
+
+message OpenTransactionRequest {
+    string user_id = 1;
+    double amount = 2;
+    int32 timeout_seconds = 3;
+}
+
+message TransactionActionRequest {
+    string transaction_id = 1;
+}
+
+message BalanceResponse {
+    string status = 1;
+}
+
+message TransactionResponse {
+    string transaction_id = 1;
+    string status = 2;
+}
